@@ -10,10 +10,10 @@ router.get("/getItems", (req, res) => {
 router.post("/addItems/:adminId", (req, res) => {
   try {
     const product = new Product({
-      productName: "Broom",
-      quantity: "15",
-      category: "Grocery",
-      price: 900,
+      productName: req.body.productName,
+      quantity: req.body.productQuantity,
+      category: req.body.productCategory,
+      price: req.body.productPrice,
       adminId: Mongoose.Types.ObjectId(req.params.adminId),
       storeId: Mongoose.Types.ObjectId("5f36b5247337b4a0e52f5cf0"),
     });
