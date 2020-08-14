@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Admin from "./Admin/index";
+import Dashboard from "./Admin/Dashboard/index";
+import RegisterShop from "./Admin/RegisterShop/index";
+import Inventory from "./Admin/Inventory/index";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route path="/admin" component={Admin}></Route>
+      <Route path="/dashboard" component={Dashboard}></Route>
+      <Route path="/registershop" component={RegisterShop}></Route>
+      <Route path="/inventory" component={Inventory}></Route>
+    </Router>
   );
 }
 
