@@ -1,9 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// const passport = require("passport");
+const cors = require("cors");
+const passport = require("passport");
 
 const app = express();
+app.use(cors());
 
 app.use(
   bodyParser.urlencoded({
@@ -22,9 +24,12 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch((err) => console.log(err));
 
-// app.use(passport.initialize());
+app.use(passport.initialize());
 
-// require("./config/passport")(passport);
+app.use("/api/admin", require("./routes/api/admin"));
+
+require("./config/passport")(passport);
+require("./config/passport")(passport);
 
 const port = process.env.PORT || 5000;
 
