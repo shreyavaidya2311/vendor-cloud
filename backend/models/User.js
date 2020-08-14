@@ -18,6 +18,10 @@ const UserSchema = new Schema({
     type: String,
     default: "Aundh",
   },
+  orders: {
+    type: Array,
+    required: false,
+  },
   userType: {
     type: Number,
     required: true,
