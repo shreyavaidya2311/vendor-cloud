@@ -46,7 +46,7 @@ ElevationScroll.propTypes = {
 
 const StyledAppBar = withStyles({
   root: {
-    background: "linear-gradient(45deg,#3981ed 60rem,#246ad4 30rem)",
+    background: "linear-gradient(45deg,#3981ed 65rem,#246ad4 30rem)",
   },
   label: {
     textTransform: "capitalize",

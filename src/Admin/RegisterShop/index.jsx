@@ -6,7 +6,6 @@ class RegisterShop extends React.Component {
     return (
       <div>
         <Header />
-        <h1>Register Shop</h1>
       </div>
     );
   }
