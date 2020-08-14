@@ -49,7 +49,6 @@ const StyledAppBar = withStyles({
 
 function Header(props) {
   const onLogoutClick = (e) => {
-    e.preventDefault();
     props.logoutUser();
   };
 
@@ -96,13 +95,15 @@ function Header(props) {
                 </Link>
               </Grid>
             </Grid>
-            <Button
-              color="inherit"
-              startIcon={<ExitToAppIcon />}
-              onClick={onLogoutClick}
-            >
-              Logout
-            </Button>
+            <Link to="/login" className="link">
+              <Button
+                color="inherit"
+                startIcon={<ExitToAppIcon />}
+                onClick={onLogoutClick}
+              >
+                Logout
+              </Button>
+            </Link>
           </Toolbar>
         </StyledAppBar>
       </ElevationScroll>

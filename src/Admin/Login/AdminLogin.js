@@ -17,7 +17,7 @@ class AdminLogin extends Component {
       this.props.auth.isAuthenticated &&
       this.props.auth.user.userType === 1
     ) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/admin");
     }
   }
 
@@ -27,12 +27,12 @@ class AdminLogin extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated && nextProps.auth.user.userType === 1) {
-      this.props.history.push("/dashboard");
+      this.props.history.push("/admin");
     } else if (
       nextProps.auth.isAuthenticated &&
       nextProps.auth.user.userType === 0
     ) {
-      this.props.history.push("/userdashboard");
+      this.props.history.push("/user");
     }
 
     if (nextProps.errors) {

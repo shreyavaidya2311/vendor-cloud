@@ -23,6 +23,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
 import "../App.css";
+import { logoutUser } from "../redux/auth/authActions";
+import { connect } from "react-redux";
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -62,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header(props) {
+function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -72,6 +74,10 @@ export default function Header(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const onLogoutClick = (e) => {
+    props.logoutUser();
   };
 
   return (
@@ -114,9 +120,15 @@ export default function Header(props) {
                 </Link>
               </Grid>
             </Grid>
-            <Button color="inherit" startIcon={<ExitToAppIcon />}>
-              Logout
-            </Button>
+            <Link to="/login" className="link">
+              <Button
+                color="inherit"
+                startIcon={<ExitToAppIcon />}
+                onClick={onLogoutClick}
+              >
+                Logout
+              </Button>
+            </Link>
           </Toolbar>
         </StyledAppBar>
       </ElevationScroll>
@@ -148,3 +160,7 @@ export default function Header(props) {
     </React.Fragment>
   );
 }
+
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, { logoutUser })(Header);

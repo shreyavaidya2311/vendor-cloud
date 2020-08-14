@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerAdmin } from "../../redux/auth/authActions";
+import { registerUser } from "../../redux/auth/authActions";
 import classnames from "classnames";
-class AdminRegister extends Component {
+class Register extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,10 +17,7 @@ class AdminRegister extends Component {
   }
 
   componentDidMount() {
-    if (
-      this.props.auth.isAuthenticated &&
-      this.props.auth.user.userType === 1
-    ) {
+    if (this.props.auth.isAuthenticated) {
       this.props.history.push("/dashboard");
     }
   }
@@ -43,7 +40,7 @@ class AdminRegister extends Component {
       password: this.state.password,
       password2: this.state.password2,
     };
-    this.props.registerAdmin(newUser, this.props.history);
+    this.props.registerUser(newUser, this.props.history);
   };
   render() {
     const { errors } = this.state;
@@ -61,6 +58,10 @@ class AdminRegister extends Component {
               </h4>
               <p className="grey-text text-darken-1">
                 Already have an account? <Link to="/">Log in</Link>
+              </p>
+              <p className="grey-text text-darken-1">
+                Register as admin{" "}
+                <Link to="/adminregister">Admin Register</Link>
               </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
@@ -141,8 +142,8 @@ class AdminRegister extends Component {
     );
   }
 }
-AdminRegister.propTypes = {
-  registerAdmin: PropTypes.func.isRequired,
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -150,6 +151,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors,
 });
-export default connect(mapStateToProps, { registerAdmin })(
-  withRouter(AdminRegister)
-);
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
