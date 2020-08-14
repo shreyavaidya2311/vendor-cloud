@@ -49,10 +49,10 @@ function App() {
           ></AdminProtectedRoute>
         </Switch>
         <Switch>
-          <UserProtectedRoute
+          <AdminProtectedRoute
             path="/inventory"
             component={Inventory}
-          ></UserProtectedRoute>
+          ></AdminProtectedRoute>
           <UserProtectedRoute
             path="/user"
             component={User}
