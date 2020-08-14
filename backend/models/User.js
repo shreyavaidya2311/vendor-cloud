@@ -16,7 +16,7 @@ const UserSchema = new Schema({
   },
   address: {
     type: String,
-    required: true,
+    default: "Aundh",
   },
   userType: {
     type: Number,

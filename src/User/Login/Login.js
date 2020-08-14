@@ -1,55 +1,64 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerAdmin } from "../../redux/auth/authActions";
+import { loginUser } from "../../redux/auth/authActions";
 import classnames from "classnames";
-class AdminRegister extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: "",
-      email: "",
-      password: "",
-      password2: "",
-      errors: {},
-    };
-  }
+
+class Login extends Component {
+  state = {
+    email: "",
+    password: "",
+    errors: {},
+  };
 
   componentDidMount() {
-    if (
-      this.props.auth.isAuthenticated &&
-      this.props.auth.user.userType === 1
-    ) {
-      this.props.history.push("/dashboard");
+    if (this.props.auth.isAuthenticated) {
+      if (this.props.auth.userType === 1) {
+        this.props.history.push("/admin");
+      } else {
+        this.props.history.push("/user");
+      }
     }
   }
 
+  onChange = (e) => {
+    this.setState({ [e.target.id]: e.target.value });
+  };
+
   componentWillReceiveProps(nextProps) {
+    if (nextProps.auth.isAuthenticated && nextProps.auth.user.userType === 1) {
+      this.props.history.push("/admin");
+    } else if (
+      nextProps.auth.isAuthenticated &&
+      nextProps.auth.user.userType === 0
+    ) {
+      this.props.history.push("/user");
+    }
+
     if (nextProps.errors) {
       this.setState({
         errors: nextProps.errors,
       });
     }
   }
-  onChange = (e) => {
-    this.setState({ [e.target.id]: e.target.value });
-  };
+
   onSubmit = (e) => {
     e.preventDefault();
-    const newUser = {
-      name: this.state.name,
+
+    const userData = {
       email: this.state.email,
       password: this.state.password,
-      password2: this.state.password2,
     };
-    this.props.registerAdmin(newUser, this.props.history);
+
+    this.props.loginUser(userData);
   };
+
   render() {
     const { errors } = this.state;
     return (
       <div className="container">
-        <div className="row">
+        <div style={{ marginTop: "4rem" }} className="row">
           <div className="col s8 offset-s2">
             <Link to="/" className="btn-flat waves-effect">
               <i className="material-icons left">keyboard_backspace</i> Back to
@@ -57,27 +66,16 @@ class AdminRegister extends Component {
             </Link>
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
               <h4>
-                <b>Register</b> below
+                <b>Login</b> below
               </h4>
               <p className="grey-text text-darken-1">
-                Already have an account? <Link to="/">Log in</Link>
+                Don't have an account? <Link to="/register">Register</Link>
+              </p>
+              <p className="grey-text text-darken-1">
+                Or login as an admin: <Link to="/adminlogin">Admin Login</Link>
               </p>
             </div>
             <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name,
-                  })}
-                />
-                <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
-              </div>
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
@@ -86,39 +84,31 @@ class AdminRegister extends Component {
                   id="email"
                   type="email"
                   className={classnames("", {
-                    invalid: errors.email,
+                    invalid: errors.email || errors.emailnotfound,
                   })}
                 />
                 <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
+                <span className="red-text">
+                  {errors.email}
+                  {errors.emailnotfound}
+                </span>
               </div>
               <div className="input-field col s12">
                 <input
                   onChange={this.onChange}
                   value={this.state.password}
-                  error={errors.password}
+                  error={errors.passwordIncorrect}
                   id="password"
                   type="password"
                   className={classnames("", {
-                    invalid: errors.password,
+                    invalid: errors.password || errors.passwordIncorrect,
                   })}
                 />
                 <label htmlFor="password">Password</label>
-                <span className="red-text">{errors.password}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password2,
-                  })}
-                />
-                <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
+                <span className="red-text">
+                  {errors.password}
+                  {errors.passwordIncorrect}
+                </span>
               </div>
               <div className="col s12" style={{ paddingLeft: "11.250px" }}>
                 <button
@@ -131,7 +121,7 @@ class AdminRegister extends Component {
                   type="submit"
                   className="btn btn-large waves-effect waves-light hoverable blue accent-3"
                 >
-                  Sign up
+                  Login
                 </button>
               </div>
             </form>
@@ -141,15 +131,16 @@ class AdminRegister extends Component {
     );
   }
 }
-AdminRegister.propTypes = {
-  registerAdmin: PropTypes.func.isRequired,
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: state.errors,
 });
-export default connect(mapStateToProps, { registerAdmin })(
-  withRouter(AdminRegister)
-);
+
+export default connect(mapStateToProps, { loginUser })(Login);

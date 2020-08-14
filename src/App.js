@@ -6,8 +6,12 @@ import Inventory from "./Admin/Inventory/index";
 import User from "./User/index";
 import Cart from "./User/Cart/index";
 import AdminLogin from "./Admin/Login/AdminLogin";
+import Login from "./User/Login/Login";
+import Register from "./User/Login/Register";
 import AdminRegister from "./Admin/Login/AdminRegister";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import AdminProtectedRoute from "./Admin/ProtectedRoute/AdminProtectedRoute";
+import UserProtectedRoute from "./User/ProtectedRoute/UserProtectedRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "./redux/store";
@@ -33,14 +37,35 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <Route path="/admin" component={Admin}></Route>
-        <Route path="/dashboard" component={Dashboard}></Route>
-        <Route path="/registershop" component={RegisterShop}></Route>
-        <Route path="/inventory" component={Inventory}></Route>
-        <Route path="/user" component={User}></Route>
-        <Route path="/cart" component={Cart}></Route>
+        <Switch>
+          <AdminProtectedRoute exact path="/admin" component={Admin} />
+          <AdminProtectedRoute
+            path="/dashboard"
+            component={Dashboard}
+          ></AdminProtectedRoute>
+          <AdminProtectedRoute
+            path="/registershop"
+            component={RegisterShop}
+          ></AdminProtectedRoute>
+        </Switch>
+        <Switch>
+          <UserProtectedRoute
+            path="/inventory"
+            component={Inventory}
+          ></UserProtectedRoute>
+          <UserProtectedRoute
+            path="/user"
+            component={User}
+          ></UserProtectedRoute>
+          <UserProtectedRoute
+            path="/cart"
+            component={Cart}
+          ></UserProtectedRoute>
+        </Switch>
         <Route path="/adminlogin" component={AdminLogin}></Route>
         <Route path="/adminregister" component={AdminRegister}></Route>
+        <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
       </Router>
     </Provider>
   );
