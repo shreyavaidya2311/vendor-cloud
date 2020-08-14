@@ -6,8 +6,36 @@ import { TextField, Grid, Typography } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import { Add, Cancel } from "@material-ui/icons";
 import Header from "../Header";
+import axios from "axios";
 
 class AddProduct extends React.Component {
+  state = {
+    productName: "",
+    productCategory: "",
+    productPrice: 0,
+    productQuantity: 0,
+  };
+
+  handleClick = (e) => {
+    const {
+      productName,
+      productCategory,
+      productPrice,
+      productQuantity,
+    } = this.state;
+    e.preventDefault();
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/addItems/${this.props.userId}`,
+        { productName, productCategory, productPrice, productQuantity }
+      )
+      .then((res) => console.log(res));
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     return (
       <div>
@@ -32,6 +60,7 @@ class AddProduct extends React.Component {
                   fullWidth
                   id="productName"
                   label="Product Name"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -42,6 +71,7 @@ class AddProduct extends React.Component {
                   fullWidth
                   id="productCategory"
                   label="Product Category"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -53,6 +83,7 @@ class AddProduct extends React.Component {
                   id="productPrice"
                   label="Product Price"
                   type="number"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -64,6 +95,7 @@ class AddProduct extends React.Component {
                   id="productQuantity"
                   label="Product Quantity"
                   type="number"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -74,6 +106,7 @@ class AddProduct extends React.Component {
                       size="large"
                       style={{ color: blue[500] }}
                       startIcon={<Add />}
+                      onClick={this.handleClick}
                     >
                       Add
                     </Button>

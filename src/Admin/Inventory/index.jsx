@@ -10,12 +10,46 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import EditProduct from "./EditProduct";
 import AddProduct from "./AddProduct";
 import { Add } from "@material-ui/icons";
+import axios from "axios";
+import { connect } from "react-redux";
 
 class Inventory extends React.Component {
   state = {
     isEditClicked: false,
     isAddClicked: false,
+    userId: null,
+    productData: [],
+    processData: [],
   };
+
+  componentDidMount() {
+    const adminId = this.props.auth.user.id;
+    this.setState({ userId: adminId });
+    axios
+      .get(
+        `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/getStoreItem/${adminId}`
+      )
+      .then((res) => {
+        this.setState({ productData: res.data });
+        processData(res.data);
+      });
+
+    const processData = (pdata) => {
+      let newArr = [];
+      pdata.map((data, key) => {
+        newArr.push([
+          key + 1,
+          data.productName,
+          data.category,
+          data.price,
+          data.quantity,
+        ]);
+        return 0;
+      });
+      this.setState({ processData: newArr });
+    };
+  }
+
   getMuiTheme = () =>
     createMuiTheme({
       overrides: {
@@ -31,14 +65,21 @@ class Inventory extends React.Component {
         },
       },
     });
+
   handleEditClick = () => {
     this.setState({ isEditClicked: !this.state.isEditClicked });
   };
+
   handleAddClick = () => {
     this.setState({ isAddClicked: !this.state.isAddClicked });
   };
+
   render() {
     const columns = [
+      {
+        name: "productKey",
+        label: "Product ID",
+      },
       {
         name: "productName",
         label: "Product Name",
@@ -49,7 +90,7 @@ class Inventory extends React.Component {
       },
       {
         name: "productPrice",
-        label: "Product Price",
+        label: "Product Price($)",
       },
       {
         name: "productQuantity",
@@ -70,19 +111,17 @@ class Inventory extends React.Component {
       },
     ];
 
-    const data = [
-      ["Apple", "Grocery", "2", "$10"],
-      ["Apple", "Grocery", "2", "$10"],
-      ["Apple", "Grocery", "2", "$10"],
-      ["Apple", "Grocery", "2", "$10"],
-    ];
-
     const options = {
       filterType: "checkbox",
     };
     const { isAddClicked } = this.state;
     if (isAddClicked) {
-      return <AddProduct handleAddClick={this.handleAddClick} />;
+      return (
+        <AddProduct
+          handleAddClick={this.handleAddClick}
+          userId={this.state.userId}
+        />
+      );
     }
     const { isEditClicked } = this.state;
     if (isEditClicked) {
@@ -95,7 +134,7 @@ class Inventory extends React.Component {
           <MuiThemeProvider theme={this.getMuiTheme()}>
             <MUIDataTable
               title={"Inventory"}
-              data={data}
+              data={this.state.processData}
               columns={columns}
               options={options}
             />
@@ -118,4 +157,8 @@ class Inventory extends React.Component {
   }
 }
 
-export default Inventory;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {})(Inventory);
