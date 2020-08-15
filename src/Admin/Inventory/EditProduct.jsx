@@ -25,11 +25,11 @@ class EditProduct extends React.Component {
     });
   }
 
-  handeEdit = (e) => {
+  handleEdit = (e) => {
     const { productCategory, productPrice, productQuantity } = this.state;
     axios
       .patch(
-        `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/updateItem/${this.props.data[5]}`,
+        `http://localhost:5000/api/products/updateItem/${this.props.data[5]}`,
         {
           productQuantity,
           productCategory,
@@ -120,7 +120,7 @@ class EditProduct extends React.Component {
                       size="large"
                       style={{ color: blue[500] }}
                       startIcon={<Update />}
-                      onClick={this.handeEdit}
+                      onClick={this.handleEdit}
                     >
                       Update
                     </Button>

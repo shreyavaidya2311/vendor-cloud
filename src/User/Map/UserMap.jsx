@@ -11,15 +11,6 @@ export default class UserMap extends Component {
   componentDidMount() {
     const map = this.leafletMap.leafletElement;
     new ELG.Geosearch().addTo(map);
-    new ELG.geocode()
-      .text("Mont Vert Finesse")
-      .run(function (err, results, response) {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log(results);
-      });
     setTimeout(map.invalidateSize.bind(map));
     map.on("drag", function () {
       map.panInsideBounds(bounds, { animate: false });

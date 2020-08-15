@@ -14,29 +14,73 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Header from "../Header";
 import axios from "axios";
 import { connect } from "react-redux";
+import * as ELG from "esri-leaflet-geocoder";
+import { withStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 class RegisterShop extends React.Component {
   state = {
     shopName: "",
     shopCategory: "Grocery",
     shopAddress: "",
+    shopCity: "",
+    cityData: [],
+    addressData: [],
+    checked: false,
   };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleButton = (e) => {
+  handleAddressSearch = () => {
+    new ELG.geocode().address(this.state.shopAddress).run((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.setState({ addressData: results.results[0] });
+    });
+  };
+
+  handleCitySearch = () => {
+    new ELG.geocode().address(this.state.shopCity).run((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.setState({ cityData: results.results[0] });
+    });
+    console.log(this.state.cityData);
+  };
+  handleChecked = () => {
+    this.setState({ checked: !this.state.checked });
+    this.handleAddressSearch();
+    this.handleCitySearch();
+  };
+  handleButton = () => {
+    this.handleAddressSearch();
+    this.handleCitySearch();
     let adminId = this.props.auth.user.id;
-    const { shopName, shopCategory, shopAddress } = this.state;
+    const {
+      shopName,
+      shopCategory,
+      shopAddress,
+      shopCity,
+      cityData,
+      addressData,
+    } = this.state;
     axios
-      .post(
-        `${process.env.REACT_APP_BACKEND_ROUTE}/api/stores/addStore/${adminId}`,
-        {
-          shopName,
-          shopAddress,
-          shopCategory,
-        }
-      )
+      .post(`http://localhost:5000/api/stores/addStore/${adminId}`, {
+        shopName,
+        shopAddress,
+        shopCategory,
+        shopCity,
+        cityData,
+        addressData,
+      })
       .then((res) => {
         console.log(res);
         this.props.history.push("/admin");
@@ -44,6 +88,17 @@ class RegisterShop extends React.Component {
   };
 
   render() {
+    const GreenCheckbox = withStyles({
+      root: {
+        color: green[400],
+        "&$checked": {
+          color: green[600],
+        },
+      },
+      checked: {},
+    })(Checkbox);
+
+    console.log(this.state);
     return (
       <div>
         <Header />
@@ -65,7 +120,7 @@ class RegisterShop extends React.Component {
                   variant="outlined"
                   required
                   fullWidth
-                  id="productName"
+                  id="shopName"
                   label="Shop Name"
                   onChange={this.handleChange}
                 />
@@ -104,6 +159,29 @@ class RegisterShop extends React.Component {
                 />
                 <br />
                 <br />
+                <TextField
+                  name="shopCity"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="shopCity"
+                  label="Shop City"
+                  onChange={this.handleChange}
+                />
+                <br />
+                <br />
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <GreenCheckbox
+                        checked={this.state.checked}
+                        onChange={this.handleChecked}
+                        name="checked"
+                      />
+                    }
+                    label="I confirm that this is the correct location of my shop"
+                  />
+                </FormGroup>
                 <Grid justify="center" spacing={3} container>
                   <Grid item>
                     <Button
