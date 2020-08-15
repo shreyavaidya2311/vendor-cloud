@@ -69,6 +69,7 @@ router.post("/login", (req, res) => {
           id: user.id,
           name: user.name,
           userType: user.userType,
+          address: user.addressData,
         };
 
         jwt.sign(
