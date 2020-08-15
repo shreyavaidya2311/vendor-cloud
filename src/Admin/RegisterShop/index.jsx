@@ -95,7 +95,7 @@ class RegisterShop extends React.Component {
       })
       .then((res) => {
         console.log(res);
-        //this.props.history.push("/admin");
+        this.props.history.push("/admin");
       });
   };
 
