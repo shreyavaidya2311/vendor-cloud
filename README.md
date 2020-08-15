@@ -19,6 +19,8 @@ You will also see any lint errors in the console.
 ### `change the route to /login`
 Open [http://localhost:3000/login](http://localhost:3000) to view it in the browser.
 
+After following these steps our app should be up and running!
+
 
 
 
