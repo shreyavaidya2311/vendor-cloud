@@ -35,7 +35,11 @@ class AddProduct extends React.Component {
         `http://localhost:5000/api/products/addItems/${this.props.userId}`,
         { productName, productQuantity, productCategory, productPrice }
       )
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        this.props.handleAddClick();
+        window.location.reload();
+      });
   };
 
   handleChange = (e) => {

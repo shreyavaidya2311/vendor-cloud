@@ -2,7 +2,13 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { TextField, Grid, Typography } from "@material-ui/core";
+import {
+  TextField,
+  Grid,
+  Typography,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import { Update, Cancel } from "@material-ui/icons";
 import Header from "../Header";
@@ -11,7 +17,7 @@ import axios from "axios";
 class EditProduct extends React.Component {
   state = {
     productName: "",
-    productCategory: "",
+    productCategory: "Grocery",
     productPrice: "",
     productQuantity: "",
   };
@@ -39,6 +45,7 @@ class EditProduct extends React.Component {
       .then((res) => {
         console.log(res);
         this.props.handleEditClick();
+        window.location.reload();
       });
   };
 
@@ -75,16 +82,26 @@ class EditProduct extends React.Component {
                 />
                 <br />
                 <br />
-                <TextField
+                <Select
                   name="productCategory"
                   variant="outlined"
                   required
                   fullWidth
                   id="productCategory"
                   label="Product Category"
-                  value={this.state.productCategory}
                   onChange={this.handleChange}
-                />
+                  value={this.state.productCategory}
+                >
+                  <MenuItem value={"Grocery"}>Grocery</MenuItem>
+                  <MenuItem value={"Stationary and Novelties"}>
+                    Stationary and Novelties
+                  </MenuItem>
+                  <MenuItem value={"Pharmacy"}>Pharmacy</MenuItem>
+                  <MenuItem value={"Clothing and Accessories"}>
+                    Clothing and Accessories
+                  </MenuItem>
+                  <MenuItem value={"Cosmetics"}>Cosmetics</MenuItem>
+                </Select>
                 <br />
                 <br />
                 <TextField

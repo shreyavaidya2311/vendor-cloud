@@ -90,7 +90,7 @@ class AdminLogin extends Component {
         <CssBaseline />
         <div className={classes.paper}>
           <Link to="/login" className="vlink">
-            <Grid container justify="center">
+            <Grid container justify="center" style={{ marginTop: "0.5rem" }}>
               <div style={{ marginTop: "0.4rem" }}>
                 <img src={logo} alt="Logo" height="60rem" width="60rem" />
               </div>
