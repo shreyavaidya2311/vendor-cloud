@@ -21,6 +21,7 @@ class UserMap extends Component {
     selectedShop: null,
     address: this.props.auth.user.address,
     category: "",
+    pdata: [],
   };
 
   southWest = L.latLng(
@@ -34,28 +35,33 @@ class UserMap extends Component {
   bounds = L.latLngBounds(this.southWest, this.northEast);
 
   componentDidMount() {
-    this.setState({ category: this.props.sort.category });
     axios
       .get(`${process.env.REACT_APP_BACKEND_ROUTE}/api/stores/getStores`)
       // .then((res) => this.setState({ cdata: res.data, isLoaded: true }));
-      .then((res) => processData(res.data));
-
-    const processData = (pData) => {
-      if (this.props.sort.category) {
-        const newData = pData.filter(
-          (data) => data.category === this.props.sort.category
-        );
-        console.log("if", newData);
-        this.setState({ cdata: newData, isLoaded: true });
-      } else {
-        console.log(pData);
-        this.setState({ cdata: pData, isLoaded: true });
-      }
-    };
+      .then((res) => this.setState({ pdata: res.data }));
 
     const map = this.leafletMap.leafletElement;
     new ELG.Geosearch().addTo(map);
     setTimeout(map.invalidateSize.bind(map));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sort.category !== this.props.sort.category) {
+      this.setState({ category: nextProps.sort.category });
+      const processData = (pData) => {
+        if (nextProps.sort.category) {
+          const newData = pData.filter(
+            (data) => data.category === nextProps.sort.category
+          );
+          console.log("if", newData);
+          this.setState({ cdata: newData, isLoaded: true });
+        } else {
+          console.log(pData);
+          this.setState({ cdata: pData, isLoaded: true });
+        }
+      };
+      processData(this.state.pdata);
+    }
   }
 
   render() {
@@ -73,7 +79,9 @@ class UserMap extends Component {
         <TileLayer
           url="https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken}"
           attribution='<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          accessToken={process.env.REACT_APP_MAP_API}
+          accessToken={
+            "6AC281bAgEzzbmuK8Cryu0kmxetSuMsWJvzwAs6hesxy5zRTMDY1p7XYlqZNYJlM"
+          }
           noWrap
         />
 
