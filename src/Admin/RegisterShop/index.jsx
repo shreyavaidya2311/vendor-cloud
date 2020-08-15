@@ -6,7 +6,37 @@ import { TextField, Grid, Typography } from "@material-ui/core";
 import { blue } from "@material-ui/core/colors";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Header from "../Header";
+import axios from "axios";
+import { connect } from "react-redux";
 class RegisterShop extends React.Component {
+  state = {
+    shopName: "",
+    shopCategory: "",
+    shopAddress: "",
+  };
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleButton = (e) => {
+    let adminId = this.props.auth.user.id;
+    const { shopName, shopCategory, shopAddress } = this.state;
+    axios
+      .post(
+        `${process.env.REACT_APP_BACKEND_ROUTE}/api/stores/addStore/${adminId}`,
+        {
+          shopName,
+          shopAddress,
+          shopCategory,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        this.props.history.push("/admin");
+      });
+  };
+
   render() {
     return (
       <div>
@@ -31,6 +61,7 @@ class RegisterShop extends React.Component {
                   fullWidth
                   id="productName"
                   label="Shop Name"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -41,6 +72,7 @@ class RegisterShop extends React.Component {
                   fullWidth
                   id="shopCategory"
                   label="Shop Category"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -51,7 +83,7 @@ class RegisterShop extends React.Component {
                   fullWidth
                   id="shopAddress"
                   label="Shop Address"
-                  type="number"
+                  onChange={this.handleChange}
                 />
                 <br />
                 <br />
@@ -62,6 +94,7 @@ class RegisterShop extends React.Component {
                       size="large"
                       style={{ color: blue[500] }}
                       startIcon={<CheckBoxIcon />}
+                      onClick={this.handleButton}
                     >
                       Register
                     </Button>
@@ -76,4 +109,8 @@ class RegisterShop extends React.Component {
   }
 }
 
-export default RegisterShop;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {})(RegisterShop);

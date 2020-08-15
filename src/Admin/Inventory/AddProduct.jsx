@@ -27,7 +27,7 @@ class AddProduct extends React.Component {
     axios
       .post(
         `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/addItems/${this.props.userId}`,
-        { productName, productCategory, productPrice, productQuantity }
+        { productName, productQuantity, productCategory, productPrice }
       )
       .then((res) => console.log(res));
   };

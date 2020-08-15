@@ -26,9 +26,9 @@ router.get("/getStores/:adminId", async (req, res) => {
 
 router.post("/addStore/:adminId", (req, res) => {
   const store = new Store({
-    storeName: "Shreya",
-    address: "Baner",
-    category: "Medical",
+    storeName: req.body.shopName,
+    address: req.body.shopAddress,
+    category: req.body.shopCategory,
     adminId: mongoose.Types.ObjectId(req.params.adminId),
   });
   store.save().then((response) => res.send("Succesful"));
