@@ -148,15 +148,23 @@ class Inventory extends React.Component {
     return (
       <div>
         <Header />
-        <div style={{ margin: "2rem" }}>
-          <MuiThemeProvider theme={this.getMuiTheme()}>
-            <MUIDataTable
-              title={"Inventory"}
-              data={this.state.processData}
-              columns={columns}
-              options={options}
-            />
-          </MuiThemeProvider>
+        <div
+          style={{
+            margin: "2rem",
+          }}
+        >
+          <Grid container justify="center">
+            <Grid item xs={8}>
+              <MuiThemeProvider theme={this.getMuiTheme()}>
+                <MUIDataTable
+                  title={"Inventory"}
+                  data={this.state.processData}
+                  columns={columns}
+                  options={options}
+                />
+              </MuiThemeProvider>
+            </Grid>
+          </Grid>
           <br />
           <Grid justify="center" container>
             <Button
