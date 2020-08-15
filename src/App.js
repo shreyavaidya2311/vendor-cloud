@@ -12,6 +12,12 @@ import AdminRegister from "./Admin/Login/AdminRegister";
 import AdminProtectedRoute from "./Admin/ProtectedRoute/AdminProtectedRoute";
 import UserProtectedRoute from "./User/ProtectedRoute/UserProtectedRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "leaflet/dist/leaflet.css";
+import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
+import "leaflet/dist/leaflet.js";
+import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.js";
+// import "materialize-css/dist/css/materialize.min.css";
+
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import jwt_decode from "jwt-decode";
