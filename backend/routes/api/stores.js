@@ -4,7 +4,7 @@ const Store = require("../../models/Store");
 
 router.get("/getStores", (req, res) => {
   try {
-    Store.find().then((response) => res.send(response));
+    Store.find().then((response) => res.json(response));
   } catch (err) {
     res.send("Error");
   }

@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Product = require("../../models/Product");
 const Mongoose = require("mongoose");
 const Store = require("../../models/Store");
+const { response } = require("express");
 
 router.get("/getItems", (req, res) => {
   Product.find().then((result) => res.send(result));
@@ -29,6 +30,12 @@ router.get("/getStoreItem/:adminId", async (req, res) => {
   Product.find({ adminId: req.params.adminId }).then((response) =>
     res.send(response)
   );
+});
+
+router.get("/getProductsByStore/:storeId", async (req, res) => {
+  Product.find({ storeId: req.params.storeId }).then((response) => {
+    res.send(response);
+  });
 });
 
 router.delete("/deleteItem/:productId", async (req, res) => {
