@@ -11,6 +11,7 @@ import Register from "./User/Login/Register";
 import AdminRegister from "./Admin/Login/AdminRegister";
 import AdminProtectedRoute from "./Admin/ProtectedRoute/AdminProtectedRoute";
 import UserProtectedRoute from "./User/ProtectedRoute/UserProtectedRoute";
+import Store from "./User/Map/UserProductView";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import "esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css";
@@ -71,6 +72,7 @@ function App() {
         <Route path="/adminregister" component={AdminRegister}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
+        <Route path="/store" component={Store}></Route>
       </Router>
     </Provider>
   );
