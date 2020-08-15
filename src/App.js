@@ -72,7 +72,7 @@ function App() {
         <Route path="/adminregister" component={AdminRegister}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
-        <Route path="/store" component={Store}></Route>
+        <Route path="/store/:storeId" component={Store}></Route>
       </Router>
     </Provider>
   );

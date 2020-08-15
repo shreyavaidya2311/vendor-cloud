@@ -11,14 +11,24 @@ import { connect } from "react-redux";
 
 class UserProductView extends React.Component {
   state = {
+    storeName: null,
     productData: [],
     productQuantity: 1,
   };
+
   componentDidMount() {
-    axios.get(`http://localhost:5000/api/products/getItems`).then((res) => {
-      this.setState({ productData: res.data });
-      console.log(res.data);
-    });
+    axios
+      .get(
+        `http://localhost:5000/api/products/getProductsByStore/5f36b5247337b4a0e52f5cf0`
+      )
+      .then((res) => {
+        this.setState({ productData: res.data });
+        console.log(res.data);
+      });
+    const { name } = this.props.location.state;
+    this.setState({ storeName: name });
+    const { storeId } = this.props.match.params;
+    console.log(storeId);
   }
   render() {
     return (
@@ -26,7 +36,7 @@ class UserProductView extends React.Component {
         <Header />
         <Grid justify="center" container>
           <Typography style={{ fontSize: "1.5rem" }} variant="overline">
-            Welcome to Superstore!
+            Welcome to {this.state.storeName}
           </Typography>
         </Grid>
         <Grid justify="center" container>

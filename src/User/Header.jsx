@@ -24,6 +24,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link } from "react-router-dom";
 import "../App.css";
 import { logoutUser } from "../redux/auth/authActions";
+import { setCategory } from "../redux/sort/sortActions";
 import { connect } from "react-redux";
 
 function ElevationScroll(props) {
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [state, setState] = React.useState({ shopCategory: "Grocery" });
+  const [state, setState] = React.useState({ shopCategory: "" });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,6 +85,7 @@ function Header(props) {
 
   const handleChange = (e) => {
     setState({ [e.target.name]: e.target.value });
+    props.setCategory(e.target.value);
   };
 
   return (
@@ -152,6 +154,7 @@ function Header(props) {
               label="Shop Category"
               onChange={handleChange}
               value={state.shopCategory}
+              placeholder="Select Category"
             >
               <MenuItem value={"Grocery"}>Grocery</MenuItem>
               <MenuItem value={"Stationary and Novelties"}>
@@ -180,4 +183,4 @@ function Header(props) {
 
 const mapStateToProps = (state) => ({});
 
-export default connect(mapStateToProps, { logoutUser })(Header);
+export default connect(mapStateToProps, { logoutUser, setCategory })(Header);
