@@ -12,8 +12,6 @@ import AdminRegister from "./Admin/Login/AdminRegister";
 import AdminProtectedRoute from "./Admin/ProtectedRoute/AdminProtectedRoute";
 import UserProtectedRoute from "./User/ProtectedRoute/UserProtectedRoute";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import "materialize-css/dist/css/materialize.min.css";
-
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import jwt_decode from "jwt-decode";
