@@ -3,7 +3,17 @@ import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerAdmin } from "../../redux/auth/authActions";
-import classnames from "classnames";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import logo from "../../images/loginlogo.png";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
 class AdminRegister extends Component {
   constructor() {
     super();
@@ -45,99 +55,157 @@ class AdminRegister extends Component {
     };
     this.props.registerAdmin(newUser, this.props.history);
   };
+
+  useStyles = () =>
+    makeStyles((theme) => ({
+      paper: {
+        marginTop: theme.spacing(3),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
+      avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.primary.main,
+      },
+      form: {
+        width: "100%",
+        marginTop: theme.spacing(3),
+      },
+      submit: {
+        margin: theme.spacing(3, 0, 2),
+      },
+    }));
   render() {
-    const { errors } = this.state;
+    const classes = this.useStyles();
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
-            </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Register</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Already have an account? <Link to="/">Log in</Link>
-              </p>
-            </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.name}
-                  error={errors.name}
-                  id="name"
-                  type="text"
-                  className={classnames("", {
-                    invalid: errors.name,
-                  })}
-                />
-                <label htmlFor="name">Name</label>
-                <span className="red-text">{errors.name}</span>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Link to="/login" className="vlink">
+            <Grid container justify="center" style={{ marginTop: "3rem" }}>
+              <div style={{ marginTop: "0.4rem" }}>
+                <img src={logo} alt="Logo" height="60rem" width="60rem" />
               </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email,
-                  })}
-                />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">{errors.email}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password,
-                  })}
-                />
-                <label htmlFor="password">Password</label>
-                <span className="red-text">{errors.password}</span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password2}
-                  error={errors.password2}
-                  id="password2"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password2,
-                  })}
-                />
-                <label htmlFor="password2">Confirm Password</label>
-                <span className="red-text">{errors.password2}</span>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem",
-                  }}
+              <Typography
+                variant="overline"
+                style={{
+                  marginLeft: "1rem",
+                  fontSize: "1.75rem",
+                }}
+              >
+                Vendor Cloud
+              </Typography>
+            </Grid>
+          </Link>
+          <Grid container justify="center">
+            <ButtonGroup color="primary">
+              <Button size="large">
+                <Link to="/adminregister" className="alink">
+                  Admin
+                </Link>
+              </Button>
+              <Button size="large">
+                <Link to="/register" className="alink">
+                  User
+                </Link>
+              </Button>
+            </ButtonGroup>
+          </Grid>
+
+          <Card style={{ padding: "1rem", marginTop: "1rem" }}>
+            <CardContent>
+              <Grid container justify="center">
+                <Typography component="h1" variant="h5">
+                  Register as Admin
+                </Typography>
+              </Grid>
+              <br />
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link to="/adminlogin" variant="body2" className="alink">
+                    Already have an account? Log in here
+                  </Link>
+                </Grid>
+              </Grid>
+              <br />
+              <form
+                className={classes.form}
+                noValidate
+                onSubmit={this.onSubmit}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoComplete="name"
+                      name="name"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="name"
+                      label="Name"
+                      autoFocus
+                      onChange={this.onChange}
+                      value={this.state.name}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      onChange={this.onChange}
+                      value={this.state.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      id="password"
+                      type="password"
+                      onChange={this.onChange}
+                      value={this.state.password}
+                      autoComplete="current-password"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="password2"
+                      type="password"
+                      label="Confirm Password"
+                      autoComplete="current-password"
+                      onChange={this.onChange}
+                      value={this.state.password2}
+                    />
+                  </Grid>
+                </Grid>
+                <br />
+                <Button
                   type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
                 >
-                  Sign up
-                </button>
-              </div>
-            </form>
-          </div>
+                  Register
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
-      </div>
+      </Container>
     );
   }
 }
