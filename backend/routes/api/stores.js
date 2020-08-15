@@ -29,7 +29,10 @@ router.post("/addStore/:adminId", (req, res) => {
     storeName: req.body.shopName,
     address: req.body.shopAddress,
     category: req.body.shopCategory,
+    city: req.body.shopCity,
     adminId: mongoose.Types.ObjectId(req.params.adminId),
+    cityData: req.body.cityData,
+    addressData: req.body.addressData,
   });
   store.save().then((response) => res.send("Succesful"));
 });

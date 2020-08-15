@@ -27,9 +27,7 @@ class Inventory extends React.Component {
     const adminId = this.props.auth.user.id;
     this.setState({ userId: adminId });
     axios
-      .get(
-        `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/getStoreItem/${adminId}`
-      )
+      .get(`http://localhost:5000/api/products/getStoreItem/${adminId}`)
       .then((res) => {
         this.setState({ productData: res.data });
         processData(res.data);
@@ -123,7 +121,7 @@ class Inventory extends React.Component {
         const idsToDelete = rowsDeleted.data.map((d) => data[d.dataIndex][5]);
         axios
           .delete(
-            `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/deleteItem/${idsToDelete}`
+            `http://localhost:5000/api/products/deleteItem/${idsToDelete}`
           )
           .then((res) => console.log(res));
       },

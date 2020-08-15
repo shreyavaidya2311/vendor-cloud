@@ -18,6 +18,18 @@ const StoreSchema = new Schema({
     type: mongoose.Types.ObjectId,
     required: true,
   },
+  city: {
+    type: String,
+    required: true,
+  },
+  cityData: {
+    type: Array,
+    required: true,
+  },
+  addressData: {
+    type: Array,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("stores", StoreSchema);

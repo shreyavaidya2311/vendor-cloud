@@ -32,7 +32,7 @@ class AddProduct extends React.Component {
     e.preventDefault();
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/addItems/${this.props.userId}`,
+        `http://localhost:5000/api/products/addItems/${this.props.userId}`,
         { productName, productQuantity, productCategory, productPrice }
       )
       .then((res) => console.log(res));
@@ -55,7 +55,7 @@ class AddProduct extends React.Component {
                   variant="overline"
                   display="block"
                 >
-                  Product -
+                  Add Product
                 </Typography>
                 <hr />
                 <br />
