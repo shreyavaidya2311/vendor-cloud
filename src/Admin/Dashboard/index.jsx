@@ -7,6 +7,8 @@ class Dashboard extends React.Component {
     return (
       <div>
         <Header />
+        <br />
+        <br />
         <ControlledAccordions />
       </div>
     );

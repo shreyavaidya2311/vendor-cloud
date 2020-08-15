@@ -12,6 +12,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,46 +73,53 @@ export default function ControlledAccordions() {
         const { id, name, address, product } = accordion;
 
         return (
-          <Accordion
-            expanded={expanded === id}
-            key={id}
-            onChange={handleChange(id)}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography className={classes.heading}>{name}</Typography>
-              <Typography className={classes.secondaryHeading}>
-                {address}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <TableContainer component={Paper}>
-                  <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                      <TableRow className={classes.headertable}>
-                        <TableCell>Product</TableCell>
-                        <TableCell>Quantity</TableCell>
-                        <TableCell>Cost</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    {product.map((product) => (
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.quantity}</TableCell>
-                          <TableCell>{product.cost}</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    ))}
-                  </Table>
-                </TableContainer>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <Grid container justify="center">
+            <Grid item xs={8}>
+              <Accordion
+                expanded={expanded === id}
+                key={id}
+                onChange={handleChange(id)}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography className={classes.heading}>{name}</Typography>
+                  <Typography className={classes.secondaryHeading}>
+                    {address}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    <TableContainer component={Paper}>
+                      <Table
+                        className={classes.table}
+                        aria-label="simple table"
+                      >
+                        <TableHead>
+                          <TableRow className={classes.headertable}>
+                            <TableCell>Product</TableCell>
+                            <TableCell>Quantity</TableCell>
+                            <TableCell>Cost</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        {product.map((product) => (
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>{product.name}</TableCell>
+                              <TableCell>{product.quantity}</TableCell>
+                              <TableCell>{product.cost}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        ))}
+                      </Table>
+                    </TableContainer>
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            </Grid>
+          </Grid>
         );
       })}
     </div>

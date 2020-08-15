@@ -13,8 +13,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControl,
   Select,
+  MenuItem,
   makeStyles,
 } from "@material-ui/core";
 import Logo from "../images/logo.png";
@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexWrap: "wrap",
+    width: "20rem",
   },
   formControl: {
     margin: theme.spacing(1),
@@ -67,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState({ shopCategory: "Grocery" });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,8 +78,12 @@ function Header(props) {
     setOpen(false);
   };
 
-  const onLogoutClick = (e) => {
+  const onLogoutClick = () => {
     props.logoutUser();
+  };
+
+  const handleChange = (e) => {
+    setState({ [e.target.name]: e.target.value });
   };
 
   return (
@@ -137,15 +143,26 @@ function Header(props) {
         <DialogTitle>Select a category</DialogTitle>
         <DialogContent>
           <form className={classes.container}>
-            <FormControl className={classes.formControl}>
-              <Select>
-                <option>Grocery</option>
-                <option>Stationery and Novelties</option>
-                <option>Pharmacy</option>
-                <option>Clothing and Accessories</option>
-                <option>Cosmetics</option>
-              </Select>
-            </FormControl>
+            <Select
+              name="shopCategory"
+              variant="outlined"
+              required
+              fullWidth
+              id="shopCategory"
+              label="Shop Category"
+              onChange={handleChange}
+              value={state.shopCategory}
+            >
+              <MenuItem value={"Grocery"}>Grocery</MenuItem>
+              <MenuItem value={"Stationary and Novelties"}>
+                Stationary and Novelties
+              </MenuItem>
+              <MenuItem value={"Pharmacy"}>Pharmacy</MenuItem>
+              <MenuItem value={"Clothing and Accessories"}>
+                Clothing and Accessories
+              </MenuItem>
+              <MenuItem value={"Cosmetics"}>Cosmetics</MenuItem>
+            </Select>
           </form>
         </DialogContent>
         <DialogActions>
