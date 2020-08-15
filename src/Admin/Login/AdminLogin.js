@@ -154,6 +154,8 @@ class AdminLogin extends Component {
                       autoComplete="email"
                       onChange={this.onChange}
                       value={this.state.email}
+                      error={this.props.errors.email ? true : false}
+                      helperText={this.props.errors.email}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -168,6 +170,8 @@ class AdminLogin extends Component {
                       onChange={this.onChange}
                       value={this.state.password}
                       autoComplete="current-password"
+                      error={this.props.errors.passwordIncorrect ? true : false}
+                      helperText={this.props.errors.passwordIncorrect}
                     />
                   </Grid>
                 </Grid>
