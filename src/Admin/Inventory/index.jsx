@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 
 class Inventory extends React.Component {
   state = {
+    dataIndex: null,
     isEditClicked: false,
     isAddClicked: false,
     userId: null,
@@ -43,6 +44,7 @@ class Inventory extends React.Component {
           data.category,
           data.price,
           data.quantity,
+          data._id,
         ]);
         return 0;
       });
@@ -66,8 +68,11 @@ class Inventory extends React.Component {
       },
     });
 
-  handleEditClick = () => {
-    this.setState({ isEditClicked: !this.state.isEditClicked });
+  handleEditClick = (dataIndex) => {
+    this.setState({
+      dataIndex: dataIndex,
+      isEditClicked: !this.state.isEditClicked,
+    });
   };
 
   handleAddClick = () => {
@@ -100,9 +105,9 @@ class Inventory extends React.Component {
         name: "editProduct",
         label: "Edit Product",
         options: {
-          customBodyRenderLite: () => {
+          customBodyRenderLite: (dataIndex) => {
             return (
-              <IconButton onClick={this.handleEditClick}>
+              <IconButton onClick={() => this.handleEditClick(dataIndex)}>
                 <EditIcon style={{ color: blue[500] }} />
               </IconButton>
             );
@@ -113,7 +118,17 @@ class Inventory extends React.Component {
 
     const options = {
       filterType: "checkbox",
+      onRowsDelete: (rowsDeleted) => {
+        const data = this.state.processData;
+        const idsToDelete = rowsDeleted.data.map((d) => data[d.dataIndex][5]);
+        axios
+          .delete(
+            `${process.env.REACT_APP_BACKEND_ROUTE}/api/products/deleteItem/${idsToDelete}`
+          )
+          .then((res) => console.log(res));
+      },
     };
+
     const { isAddClicked } = this.state;
     if (isAddClicked) {
       return (
@@ -125,7 +140,12 @@ class Inventory extends React.Component {
     }
     const { isEditClicked } = this.state;
     if (isEditClicked) {
-      return <EditProduct handleEditClick={this.handleEditClick} />;
+      return (
+        <EditProduct
+          handleEditClick={this.handleEditClick}
+          data={this.state.processData[this.state.dataIndex]}
+        />
+      );
     }
     return (
       <div>

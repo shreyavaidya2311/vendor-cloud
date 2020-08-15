@@ -36,4 +36,17 @@ router.delete("/deleteItem/:productId", async (req, res) => {
   res.send("Success");
 });
 
+router.patch("/updateItem/:productId", (req, res) => {
+  Product.findByIdAndUpdate(
+    { _id: req.params.productId },
+    {
+      $set: {
+        quantity: req.body.productQuantity,
+        category: req.body.productCategory,
+        price: req.body.productPrice,
+      },
+    }
+  ).then(res.status(200).send("Success"));
+});
+
 module.exports = router;
