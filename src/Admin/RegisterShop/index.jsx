@@ -41,7 +41,13 @@ class RegisterShop extends React.Component {
         console.log(err);
         return;
       }
-      this.setState({ addressData: results.results[0] });
+      this.setState({
+        addressData: [
+          results.results[0].text,
+          results.results[0].bounds,
+          results.results[0].latlng,
+        ],
+      });
     });
   };
 
@@ -51,7 +57,13 @@ class RegisterShop extends React.Component {
         console.log(err);
         return;
       }
-      this.setState({ cityData: results.results[0] });
+      this.setState({
+        cityData: [
+          results.results[0].text,
+          results.results[0].bounds,
+          results.results[0].latlng,
+        ],
+      });
     });
     console.log(this.state.cityData);
   };
@@ -83,7 +95,7 @@ class RegisterShop extends React.Component {
       })
       .then((res) => {
         console.log(res);
-        this.props.history.push("/admin");
+        //this.props.history.push("/admin");
       });
   };
 
