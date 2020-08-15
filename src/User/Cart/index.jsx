@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../Header";
+import MiddleDividers from "../Cart/Cart";
 
 class Cart extends React.Component {
   render() {
     return (
       <div>
         <Header />
-        <h1>Cart</h1>
+        <MiddleDividers />
       </div>
     );
   }
