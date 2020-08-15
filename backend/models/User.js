@@ -14,10 +14,6 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  address: {
-    type: String,
-    default: "Aundh",
-  },
   orders: {
     type: Array,
     required: false,
@@ -29,6 +25,14 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  addressData: {
+    type: Array,
+    required: true,
   },
 });
 
