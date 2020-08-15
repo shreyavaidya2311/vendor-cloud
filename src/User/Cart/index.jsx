@@ -1,13 +1,13 @@
 import React from "react";
 import Header from "../Header";
-import MiddleDividers from "../Cart/Cart";
+import ViewCart from "./ViewCart";
 
 class Cart extends React.Component {
   render() {
     return (
       <div>
         <Header />
-        <MiddleDividers />
+        <ViewCart />
       </div>
     );
   }

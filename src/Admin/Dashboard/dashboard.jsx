@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     width: `calc(100%)`,
   },
   headertable: {
-    backgroundColor: "lightgrey",
+    backgroundColor: "#e6f0ff",
   },
 }));
 
@@ -46,24 +46,27 @@ export default function ControlledAccordions() {
   const data = [
     {
       id: "panel1",
-      name: "Shubham",
-      address: "C-3, Pink City, Wakad, Pune",
+      name: "Sameer Kavthekar",
+      address: "Sylvan Heights, Aundh, Pune",
       product: [
-        { name: "apple", quantity: "2", cost: "30" },
-        { name: "banana", quantity: "1", cost: "200" },
+        { name: "Tomatoes", quantity: "2", cost: "8" },
+        { name: "Shorts for Men", quantity: "1", cost: "20" },
       ],
     },
     {
       id: "panel2",
-      name: "Sameer",
-      address: "Somewhere in Aundh",
-      product: [{ name: "girls", quantity: "2", cost: "20" }],
+      name: "Shreya Vaidya",
+      address: "Mont Vert Dieu, Pashan, Pune",
+      product: [{ name: "Notebooks (Pack of 6)", quantity: "2", cost: "40" }],
     },
     {
       id: "panel3",
-      name: "Shreya",
-      address: "Somewhere in Baner",
-      product: [{ name: "child slaves", quantity: "3", cost: "free" }],
+      name: "Shubham Mujumdar",
+      address: "C-3, Pink City, Wakad, Pune",
+      product: [
+        { name: "Potatoes", quantity: "3", cost: "15" },
+        { name: "Ramen", quantity: "5", cost: "10" },
+      ],
     },
   ];
 
@@ -79,6 +82,7 @@ export default function ControlledAccordions() {
                 expanded={expanded === id}
                 key={id}
                 onChange={handleChange(id)}
+                style={{ margin: "0.5rem" }}
               >
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -92,29 +96,33 @@ export default function ControlledAccordions() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    <TableContainer component={Paper}>
-                      <Table
-                        className={classes.table}
-                        aria-label="simple table"
-                      >
-                        <TableHead>
-                          <TableRow className={classes.headertable}>
-                            <TableCell>Product</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Cost</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        {product.map((product) => (
-                          <TableBody>
-                            <TableRow>
-                              <TableCell>{product.name}</TableCell>
-                              <TableCell>{product.quantity}</TableCell>
-                              <TableCell>{product.cost}</TableCell>
-                            </TableRow>
-                          </TableBody>
-                        ))}
-                      </Table>
-                    </TableContainer>
+                    <Grid container justify="center">
+                      <Grid item>
+                        <TableContainer
+                          component={Paper}
+                          style={{ marginLeft: "13rem" }}
+                        >
+                          <Table>
+                            <TableHead>
+                              <TableRow className={classes.headertable}>
+                                <TableCell>Product</TableCell>
+                                <TableCell>Quantity</TableCell>
+                                <TableCell>Cost</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            {product.map((product) => (
+                              <TableBody>
+                                <TableRow>
+                                  <TableCell>{product.name}</TableCell>
+                                  <TableCell>{product.quantity}</TableCell>
+                                  <TableCell>{product.cost}</TableCell>
+                                </TableRow>
+                              </TableBody>
+                            ))}
+                          </Table>
+                        </TableContainer>
+                      </Grid>
+                    </Grid>
                   </Typography>
                 </AccordionDetails>
               </Accordion>

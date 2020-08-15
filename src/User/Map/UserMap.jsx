@@ -4,11 +4,11 @@ import L from "leaflet";
 import { Icon } from "leaflet";
 import * as ELG from "esri-leaflet-geocoder";
 import axios from "axios";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const corona = new Icon({
+const marker = new Icon({
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
   iconSize: [13, 20],
@@ -36,36 +36,15 @@ class UserMap extends Component {
 
   componentDidMount() {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_ROUTE}/api/stores/getStores`)
-      // .then((res) => this.setState({ cdata: res.data, isLoaded: true }));
-      .then((res) => this.setState({ pdata: res.data }));
+      .get(`http://localhost:5000/api/stores/getStores`)
+      .then((res) => this.setState({ cdata: res.data, isLoaded: true }));
 
     const map = this.leafletMap.leafletElement;
     new ELG.Geosearch().addTo(map);
     setTimeout(map.invalidateSize.bind(map));
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.sort.category !== this.props.sort.category) {
-      this.setState({ category: nextProps.sort.category });
-      const processData = (pData) => {
-        if (nextProps.sort.category) {
-          const newData = pData.filter(
-            (data) => data.category === nextProps.sort.category
-          );
-          console.log("if", newData);
-          this.setState({ cdata: newData, isLoaded: true });
-        } else {
-          console.log(pData);
-          this.setState({ cdata: pData, isLoaded: true });
-        }
-      };
-      processData(this.state.pdata);
-    }
-  }
-
   render() {
-    console.log(this.props.sort.category);
     return (
       <Map
         center={[34, 74]}
@@ -79,9 +58,7 @@ class UserMap extends Component {
         <TileLayer
           url="https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token={accessToken}"
           attribution='<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          accessToken={
-            "6AC281bAgEzzbmuK8Cryu0kmxetSuMsWJvzwAs6hesxy5zRTMDY1p7XYlqZNYJlM"
-          }
+          accessToken="6AC281bAgEzzbmuK8Cryu0kmxetSuMsWJvzwAs6hesxy5zRTMDY1p7XYlqZNYJlM"
           noWrap
         />
 
@@ -94,7 +71,7 @@ class UserMap extends Component {
                 onClick={() => {
                   this.setState({ selectedShop: key + 1 });
                 }}
-                icon={corona}
+                icon={marker}
               />
             );
           })}
@@ -113,21 +90,21 @@ class UserMap extends Component {
               }}
             >
               <div>
-                <h2>
+                <Typography variant="overline" style={{ fontSize: "1rem" }}>
                   {this.state.cdata[
                     this.state.selectedShop - 1
                   ].addressData[0].toUpperCase()}
-                </h2>
+                </Typography>
                 <hr />
-                <h3>
-                  CATEGORY -
-                  <br />
+                <Typography variant="overline">
+                  CATEGORY -{" "}
                   {this.state.cdata[
                     this.state.selectedShop - 1
                   ].category.toUpperCase()}
-                </h3>
-                <hr />
+                </Typography>
+                <br />
                 <Link
+                  className="alink"
                   to={{
                     pathname: `/store/${
                       this.state.cdata[this.state.selectedShop - 1]._id
