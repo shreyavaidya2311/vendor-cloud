@@ -76,6 +76,7 @@ function Header(props) {
   };
 
   const handleClose = () => {
+    props.setCategory(state.shopCategory);
     setOpen(false);
   };
 
@@ -85,7 +86,6 @@ function Header(props) {
 
   const handleChange = (e) => {
     setState({ [e.target.name]: e.target.value });
-    props.setCategory(e.target.value);
   };
 
   return (
