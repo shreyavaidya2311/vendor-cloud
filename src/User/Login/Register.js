@@ -14,6 +14,12 @@ import logo from "../../images/loginlogo.png";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import * as ELG from "esri-leaflet-geocoder";
+import { withStyles } from "@material-ui/core/styles";
+import { green } from "@material-ui/core/colors";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 class Register extends Component {
   constructor() {
     super();
@@ -22,7 +28,10 @@ class Register extends Component {
       email: "",
       password: "",
       password2: "",
+      useraddress: "",
       errors: {},
+      addressData: [],
+      checked: false,
     };
   }
 
@@ -49,13 +58,15 @@ class Register extends Component {
       email: this.state.email,
       password: this.state.password,
       password2: this.state.password2,
+      useraddress: this.state.useraddress,
+      addressData: this.state.addressData,
     };
     this.props.registerUser(newUser, this.props.history);
   };
   useStyles = () =>
     makeStyles((theme) => ({
       paper: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -72,15 +83,37 @@ class Register extends Component {
         margin: theme.spacing(3, 0, 2),
       },
     }));
+  handleAddressSearch = () => {
+    new ELG.geocode().address(this.state.useraddress).run((err, results) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      this.setState({ addressData: results.results[0] });
+    });
+  };
+  handleChecked = () => {
+    this.setState({ checked: !this.state.checked });
+    this.handleAddressSearch();
+  };
 
   render() {
+    const GreenCheckbox = withStyles({
+      root: {
+        color: green[400],
+        "&$checked": {
+          color: green[600],
+        },
+      },
+      checked: {},
+    })(Checkbox);
     const classes = this.useStyles();
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
           <Link to="/login" className="vlink">
-            <Grid container justify="center" style={{ marginTop: "3rem" }}>
+            <Grid container justify="center">
               <div style={{ marginTop: "0.4rem" }}>
                 <img src={logo} alt="Logo" height="60rem" width="60rem" />
               </div>
@@ -166,6 +199,19 @@ class Register extends Component {
                       variant="outlined"
                       required
                       fullWidth
+                      id="useraddress"
+                      label="Residential Address"
+                      name="useraddress"
+                      autoComplete="useraddress"
+                      onChange={this.onChange}
+                      value={this.state.useraddress}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
                       name="password"
                       label="Password"
                       id="password"
@@ -189,7 +235,19 @@ class Register extends Component {
                     />
                   </Grid>
                 </Grid>
-                <br />
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <GreenCheckbox
+                        checked={this.state.checked}
+                        onChange={this.handleChecked}
+                        name="checked"
+                      />
+                    }
+                    label="Confirm your residential address"
+                  />
+                </FormGroup>
+
                 <Button
                   type="submit"
                   fullWidth
